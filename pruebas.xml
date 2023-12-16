@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Curso>
+    <alumno id="jm">
+        <nombre>Juan Manuel Perez</nombre>
+        <calificacion1>5</calificacion1>
+        <calificacion2>7</calificacion2>
+        <proyecto>8</proyecto>
+        <practica>9</practica>
+    </alumno>
+    <alumno id="cm">
+        <nombre>Carlos Minguez</nombre>
+        <calificacion1>7</calificacion1>
+        <calificacion2>8</calificacion2>
+        <proyecto>7</proyecto>
+        <practica>4</practica>
+    </alumno>
+    <alumno id="jr">
+        <nombre>Julia Ramos</nombre>
+        <calificacion1>6</calificacion1>
+        <calificacion2>9</calificacion2>
+        <proyecto>10</proyecto>
+        <practica>10</practica>
+    </alumno>
+</Curso>
