@@ -125,7 +125,7 @@ public class CalificacionesParser extends DefaultHandler {
         this.showAverage = showAverage;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         try {
             File xmlFile = new File("src/main/resources/Calificaciones.xml");
             SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -153,7 +153,7 @@ public class CalificacionesParser extends DefaultHandler {
                 }
                 System.out.printf("Media total de la clase: %.2f%n", classAverage);
 
-                // Crear el archivo XML con las medias
+                // Crea el archivo XML llamado Medias.xml con la media del curso y de cada estudiante.
                 try (FileWriter writer = new FileWriter("src/main/resources/Medias.xml")) {
                     writer.write(String.format("<?xml version=\"1.0\" encoding=\"UTF-8\"?>%n<Calificaciones MediaCurso=\"%.2f\">%n", classAverage));
                     for (Student student : students) {
@@ -168,6 +168,69 @@ public class CalificacionesParser extends DefaultHandler {
                 System.out.println("Programa finalizado.");
             } else {
                 System.out.println("Respuesta no válida. Programa finalizado.");
+            }
+
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+    }*/
+    public static void main(String[] args) {
+        try {
+            File xmlFile = new File("src/main/resources/Calificaciones.xml");
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
+
+            CalificacionesParser handler = new CalificacionesParser();
+            saxParser.parse(xmlFile, handler);
+
+            System.out.println("Contenido del archivo XML:");
+            for (Student student : handler.getStudents()) {
+                System.out.println(student);
+            }
+
+            Scanner scanner = new Scanner(System.in);
+            char answer;
+
+            do {
+                System.out.print("¿Quieres ver la media de cada alumno y la media total de la clase? Introduzca en minúscula 's' si quieres o 'n' sino quieres ");
+                String userInput = scanner.nextLine().toLowerCase();
+
+                if (userInput.length() == 1) {
+                    answer = userInput.charAt(0);
+                    if (answer == 's' || answer == 'n') {
+                        break;  // Salir del bucle si la entrada es válida
+                    } else {
+                        System.out.println("Respuesta no válida. Por favor, ingresa 's' o 'n'.");
+                    }
+                } else {
+                    System.out.println("Respuesta no válida. Por favor, ingresa 's' o 'n'.");
+                }
+            } while (true);
+
+            if (answer == 's') {
+                handler.setShowAverage(true);
+                List<Student> students = handler.getStudents();
+                double classAverage = students.stream().mapToDouble(Student::calculateAverage).average().orElse(0);
+
+                System.out.println("\nMedias:");
+                for (Student student : students) {
+                    System.out.printf("%s: %.2f%n", student.getName(), student.calculateAverage());
+                }
+                System.out.printf("Media total de la clase: %.2f%n", classAverage);
+
+                // Crear el archivo XML con las medias
+                try (FileWriter writer = new FileWriter("src/main/resources/Medias.xml")) {
+                    writer.write(String.format("<?xml version=\"1.0\" encoding=\"UTF-8\"?>%n<Calificaciones MediaCurso=\"%.2f\">%n", classAverage));
+                    for (Student student : students) {
+                        writer.write(String.format("\t<alumno>%n\t\t<nombre>%s</nombre>%n\t\t<calificacion>%.2f</calificacion>%n\t</alumno>%n",
+                                student.getName(), student.calculateAverage()));
+                    }
+                    writer.write("</Calificaciones>");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("Programa finalizado.");
             }
 
         } catch (ParserConfigurationException | SAXException | IOException e) {

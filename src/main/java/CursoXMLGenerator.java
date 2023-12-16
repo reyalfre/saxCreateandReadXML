@@ -5,6 +5,9 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.FileOutputStream;
 
+/**
+ * CursoXMLGenerator: Clase que crea el xml de Calificaciones.xml en el directorio de resources.
+ */
 public class CursoXMLGenerator {
 
     public static void main(String[] args) {
